@@ -2,8 +2,11 @@
 
 @section('content')
     <div class="bg-dark text-white">
-        <div class="container">
+        <div class="container d-flex align-items-center justify-content-between">
             <h1 class="">Portfolio</h1>
+            <a name="" id="" class="btn btn-primary" href="{{ route('admin.projects.create') }}"
+                role="button">Nuovo Progetto</a>
+
         </div>
 
     </div>
@@ -29,7 +32,9 @@
                             <td>{{ $project->title }}</td>
                             <td>{{ $project->url_site }}</td>
                             <td>{{ $project->url_source_code }}</td>
-                            <td><a href="">Show</a> / <a href="">Edit</a> / <a href="">delete</a></td>
+                            <td><a href="{{ route('admin.projects.show', $project) }}">Show</a> / <a
+                                    href="{{ route('admin.projects.update', $project) }}">Edit</a>
+                                / <a href="{{ route('admin.projects.destroy', $project) }}">delete</a></td>
                         </tr>
                     @empty
                         <p>Chiedo scusa ma non ci sono progetti al momento</p>
