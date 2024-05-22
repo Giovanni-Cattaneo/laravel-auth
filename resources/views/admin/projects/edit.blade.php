@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="container py-3">
-        <form action="{{ route('admin.projects.update', $project) }}" method="post">
+        <form action="{{ route('admin.projects.update', $project) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('put')
 
