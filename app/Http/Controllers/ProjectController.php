@@ -31,8 +31,12 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         $valData = $request->validated();
-        $img_path = Storage::disk('public')->put('uploads', $valData['image']);
-        Project::create($request->all());
+
+        if ($request->hasFile('cover_image')) {
+            $coverImage = $request->file('cover_image');
+            $valData['cover_image'] = 'storage/' . $coverImage;
+        }
+        Project::create($valData);
 
         return to_route('admin.projects.index');
     }
