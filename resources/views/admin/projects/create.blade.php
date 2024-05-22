@@ -20,10 +20,9 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <label for="" class="form-label">Img</label>
-                <input type="text" class="form-control @error('cover_image') is-invalid @enderror" name="cover_image"
-                    id="cover_image" aria-describedby="helpId" placeholder="Inserisci l'immagine del Progetto"
-                    value="{{ old('cover_image') }}" />
+                <label for="cover_image" class="form-label">Img</label>
+                <input type="file" class="form-control @error('cover_image') is-invalid @enderror" name="cover_image"
+                    id="cover_image" aria-describedby="helpId" placeholder="Inserisci l'immagine del Progetto" />
                 <small id="helpId" class="form-text text-muted">Help text</small>
                 @error('cover_image')
                     <div class="alert alert-danger">{{ $message }}</div>
