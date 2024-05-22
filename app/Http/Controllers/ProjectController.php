@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -31,14 +32,16 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         $valData = $request->validated();
+        $slug = Str::slug($request->title, '-');
+        $val_data['slug'] = $slug;
 
-        if ($request->hasFile('cover_image')) {
-            $coverImage = $request->file('cover_image');
-            $valData['cover_image'] = 'storage/' . $coverImage;
+        if ($request->has('cover_image')) {
+            $img_path = Storage::put('uploads', $val_data['cover_image']);
+            $val_data['cover_image'] = $img_path;
         }
         Project::create($valData);
 
-        return to_route('admin.projects.index');
+        return to_route('admin.projects.index')->with('message', "You created a new project, congratulations");;
     }
 
     /**
@@ -62,9 +65,20 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        $project->update($request->all());
+        $valData = $request->validated();
+        $slug = Str::slug($request->title, '-');
+        $val_data['slug'] = $slug;
 
-        return to_route('admin.projects.show', $project);
+        if ($request->has('cover_image')) {
+            if ($project->cover_image) {
+                Storage::delete($project->cover_image);
+            }
+            $img_path = Storage::put('uploads', $val_data['cover_image']);
+            $val_data['cover_image'] = $img_path;
+        }
+
+        $project->update($val_data);
+        return to_route('admin.projects.index')->with('message', "Project $project->title updated, congratulations");
     }
 
     /**
