@@ -66,19 +66,20 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
+        // dd($request);
         $valData = $request->validated();
         $slug = Str::slug($request->title, '-');
-        $val_data['slug'] = $slug;
+        $valData['slug'] = $slug;
 
         if ($request->has('cover_image')) {
             if ($project->cover_image) {
                 Storage::delete($project->cover_image);
             }
-            $img_path = Storage::put('uploads', $request->file('cover_image'));
+            $img_path = Storage::put('uploads', $valData['cover_image']);
             $valData['cover_image'] = $img_path;
         }
 
-        $project->update($val_data);
+        $project->update($valData);
         return to_route('admin.projects.index')->with('message', "Project $project->title updated, congratulations");
     }
 
