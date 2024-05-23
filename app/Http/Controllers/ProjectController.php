@@ -33,11 +33,11 @@ class ProjectController extends Controller
     {
         $valData = $request->validated();
         $slug = Str::slug($request->title, '-');
-        $val_data['slug'] = $slug;
+        $valData['slug'] = $slug;
 
         if ($request->has('cover_image')) {
-            $img_path = Storage::put('uploads', $val_data['cover_image']);
-            $val_data['cover_image'] = $img_path;
+            $img_path = Storage::put('uploads', $request->file('cover_image'));
+            $valData['cover_image'] = $img_path ?? '';
         }
         Project::create($valData);
 
@@ -73,8 +73,8 @@ class ProjectController extends Controller
             if ($project->cover_image) {
                 Storage::delete($project->cover_image);
             }
-            $img_path = Storage::put('uploads', $val_data['cover_image']);
-            $val_data['cover_image'] = $img_path;
+            $img_path = Storage::put('uploads', $valData['cover_image']);
+            $valData['cover_image'] = $img_path;
         }
 
         $project->update($val_data);
