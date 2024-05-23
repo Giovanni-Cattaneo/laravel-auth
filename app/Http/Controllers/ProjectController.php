@@ -31,17 +31,18 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-
-        dd($request->all());
         $valData = $request->validated();
         $slug = Str::slug($request->title, '-');
         $valData['slug'] = $slug;
 
-        $img_path = Storage::put('uploads', $request->file('cover_image'));
-        $valData['cover_image'] = $img_path;
+        if ($request->hasFile('cover_image')) {
+            $img_path = Storage::put('uploads', $request->file('cover_image'));
+            $valData['cover_image'] = $img_path;
+        }
+
         Project::create($valData);
 
-        return to_route('admin.projects.index')->with('message', "You created a new project, congratulations");;
+        return to_route('admin.projects.index')->with('message', "Hai creato un nuovo progetto, congratulazioni");
     }
 
     /**
