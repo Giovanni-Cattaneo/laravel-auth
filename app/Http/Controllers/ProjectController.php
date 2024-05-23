@@ -74,7 +74,7 @@ class ProjectController extends Controller
             if ($project->cover_image) {
                 Storage::delete($project->cover_image);
             }
-            $img_path = Storage::put('uploads', $valData['cover_image']);
+            $img_path = Storage::put('uploads', $request->file('cover_image'));
             $valData['cover_image'] = $img_path;
         }
 
