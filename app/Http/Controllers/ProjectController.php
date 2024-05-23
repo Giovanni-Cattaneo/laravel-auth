@@ -35,10 +35,8 @@ class ProjectController extends Controller
         $slug = Str::slug($request->title, '-');
         $valData['slug'] = $slug;
 
-        if ($request->has('cover_image')) {
-            $img_path = Storage::put('uploads', $request->file('cover_image'));
-            $valData['cover_image'] = $img_path ?? '';
-        }
+        $img_path = Storage::put('uploads', $request->file('cover_image'));
+        $valData['cover_image'] = $img_path;
         Project::create($valData);
 
         return to_route('admin.projects.index')->with('message', "You created a new project, congratulations");;
