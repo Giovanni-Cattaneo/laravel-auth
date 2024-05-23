@@ -28,7 +28,8 @@
                     @forelse($projects as $project)
                         <tr class="">
                             <td scope="row">{{ $project->id }}</td>
-                            <td><img src="{{ asset('storage/' . $project->cover_image) }}" alt=""></td>
+                            <td><img src="{{ asset('storage/' . $project->cover_image) }}" alt="" width="100">
+                            </td>
                             <td>{{ $project->title }}</td>
                             <td>{{ $project->url_site }}</td>
                             <td>{{ $project->url_source_code }}</td>
